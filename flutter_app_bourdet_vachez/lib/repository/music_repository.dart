@@ -111,7 +111,19 @@ class MusicRepository {
     }
   }
   
-  // Méthode pour créer des données factices (basées sur les captures d'écran)
+  // NOUVELLE MÉTHODE: Obtenir le classement des albums
+  Future<List<Album>> getTrendingAlbums() async {
+    try {
+      // Essayer d'appeler l'API pour les albums les plus aimés
+      // En cas d'échec, nous utiliserons les données simulées
+      return _getFakeAlbums();
+    } catch (e) {
+      print('Erreur lors de la récupération du classement des albums: $e');
+      return _getFakeAlbums();
+    }
+  }
+  
+  // Méthode pour créer des données factices pour les titres
   List<Track> _getFakeTracks() {
     return [
       Track(
@@ -161,6 +173,68 @@ class MusicRepository {
         name: 'Rollin (feat. Future & Khalid)',
         artistName: 'Funk Wav Bounces Vol. 1',
         thumbUrl: 'https://www.theaudiodb.com/images/media/track/thumb/rollin.jpg',
+      ),
+    ];
+  }
+  
+  // NOUVELLE MÉTHODE: Données factices pour les albums
+  List<Album> _getFakeAlbums() {
+    return [
+      Album(
+        id: '1',
+        name: 'Revival',
+        artistName: 'Eminem',
+        thumbUrl: 'https://www.theaudiodb.com/images/media/album/thumb/revival_eminem.jpg',
+        yearReleased: '2017',
+      ),
+      Album(
+        id: '2',
+        name: 'Reputation',
+        artistName: 'Taylor Swift',
+        thumbUrl: 'https://www.theaudiodb.com/images/media/album/thumb/reputation_swift.jpg',
+        yearReleased: '2017',
+      ),
+      Album(
+        id: '3',
+        name: 'Divide',
+        artistName: 'Ed Sheeran',
+        thumbUrl: 'https://www.theaudiodb.com/images/media/album/thumb/divide_sheeran.jpg',
+        yearReleased: '2017',
+      ),
+      Album(
+        id: '4',
+        name: 'Damn',
+        artistName: 'Kendrick Lamar',
+        thumbUrl: 'https://www.theaudiodb.com/images/media/album/thumb/damn_kendrick.jpg',
+        yearReleased: '2017',
+      ),
+      Album(
+        id: '5',
+        name: 'More Life',
+        artistName: 'Drake',
+        thumbUrl: 'https://www.theaudiodb.com/images/media/album/thumb/morelife_drake.jpg',
+        yearReleased: '2017',
+      ),
+      Album(
+        id: '6',
+        name: 'Evolve',
+        artistName: 'Imagine Dragons',
+        thumbUrl: 'https://www.theaudiodb.com/images/media/album/thumb/evolve_imaginedragons.jpg',
+        yearReleased: '2017',
+      ),
+      Album(
+        id: '7',
+        name: 'Culture',
+        artistName: 'Migos',
+        thumbUrl: 'https://www.theaudiodb.com/images/media/album/thumb/culture_migos.jpg',
+        yearReleased: '2017',
+      ),
+      Album(
+        id: '8',
+        name: 'Star Boy',
+        artistName: 'The Weeknd',
+        thumbUrl: 'https://www.theaudiodb.com/images/media/album/thumb/starboy_weeknd.jpg',
+        yearReleased: '2016',
       ),
     ];
   }

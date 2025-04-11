@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/charts/charts_bloc.dart';
 import '../widgets/track_card.dart';
+import '../widgets/album_card.dart';
 import '../widgets/error_widget.dart';
 import '../widgets/loading_widget.dart';
 
@@ -54,7 +55,7 @@ class _ChartsTabState extends State<ChartsTab> with SingleTickerProviderStateMix
             controller: _tabController,
             children: [
               _buildTracksList(),
-              const Center(child: Text('Classements des albums à venir')),
+              _buildAlbumsList(),
             ],
           ),
         ),
@@ -81,6 +82,58 @@ class _ChartsTabState extends State<ChartsTab> with SingleTickerProviderStateMix
               return TrackCard(
                 track: track,
                 index: index + 1,
+              );
+            },
+          );
+        } else if (state is ChartsError) {
+          return AppErrorWidget(
+            message: state.message,
+            onRetry: () {
+              context.read<ChartsBloc>().add(LoadCharts());
+            },
+          );
+        }
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  // NOUVELLE MÉTHODE: Construction de la liste des albums
+  Widget _buildAlbumsList() {
+    return BlocBuilder<ChartsBloc, ChartsState>(
+      builder: (context, state) {
+        if (state is ChartsLoading) {
+          return const LoadingWidget();
+        } else if (state is ChartsLoaded) {
+          if (state.albums.isEmpty) {
+            return const Center(
+              child: Text('Aucun album trouvé dans le classement'),
+            );
+          }
+          return ListView.separated(
+            itemCount: state.albums.length,
+            separatorBuilder: (context, index) => const Divider(height: 1),
+            itemBuilder: (context, index) {
+              final album = state.albums[index];
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 2.0),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 30,
+                      child: Text(
+                        '${index + 1}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: AlbumCard(album: album),
+                    ),
+                  ],
+                ),
               );
             },
           );

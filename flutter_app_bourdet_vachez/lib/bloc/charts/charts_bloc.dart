@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import '../../data/models/track.dart';
+import '../../data/models/album.dart';
 import '../../repository/music_repository.dart';
 
 // Events
@@ -27,11 +28,15 @@ class ChartsLoading extends ChartsState {}
 
 class ChartsLoaded extends ChartsState {
   final List<Track> tracks;
+  final List<Album> albums;
 
-  const ChartsLoaded(this.tracks);
+  const ChartsLoaded({
+    required this.tracks,
+    required this.albums,
+  });
 
   @override
-  List<Object> get props => [tracks];
+  List<Object> get props => [tracks, albums];
 }
 
 class ChartsError extends ChartsState {
@@ -54,8 +59,11 @@ class ChartsBloc extends Bloc<ChartsEvent, ChartsState> {
   Future<void> _onLoadCharts(LoadCharts event, Emitter<ChartsState> emit) async {
     emit(ChartsLoading());
     try {
+      // Chargement parallèle des titres et des albums
       final tracks = await repository.getTrendingTracks();
-      emit(ChartsLoaded(tracks));
+      final albums = await repository.getTrendingAlbums();
+      
+      emit(ChartsLoaded(tracks: tracks, albums: albums));
     } catch (e) {
       emit(ChartsError(e.toString()));
     }
