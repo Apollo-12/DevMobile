@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/services.dart';
 
-import 'api/api_client.dart';
 import 'bloc/charts/charts_bloc.dart';
 import 'bloc/search/search_bloc.dart';
 import 'bloc/favorites/favorites_bloc.dart';

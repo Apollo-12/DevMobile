@@ -38,20 +38,23 @@ class _SearchTabState extends State<SearchTab> {
             controller: _searchController,
             decoration: InputDecoration(
               hintText: 'Rechercher un artiste ou un album',
-              prefixIcon: const Icon(Icons.search),
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.clear),
-                onPressed: () {
-                  _searchController.clear();
-                  context.read<SearchBloc>().add(SearchInitialized());
-                },
-              ),
+              prefixIcon: const Icon(Icons.search, color: Colors.grey),
+              suffixIcon: _searchController.text.isNotEmpty 
+                ? IconButton(
+                    icon: const Icon(Icons.clear, color: Colors.grey),
+                    onPressed: () {
+                      _searchController.clear();
+                      context.read<SearchBloc>().add(SearchInitialized());
+                    },
+                  )
+                : null,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.0),
                 borderSide: BorderSide.none,
               ),
               filled: true,
               fillColor: Colors.grey[200],
+              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
             ),
             onChanged: (query) {
               if (query.isNotEmpty) {
@@ -110,7 +113,12 @@ class _SearchTabState extends State<SearchTab> {
               ),
             ),
           ),
-          ...state.artists.map((artist) => ArtistCard(artist: artist)).toList(),
+          ...state.artists.map((artist) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+              child: ArtistCard(artist: artist),
+            );
+          }).toList(),
         ],
         if (state.albums.isNotEmpty) ...[
           const Padding(
@@ -123,7 +131,12 @@ class _SearchTabState extends State<SearchTab> {
               ),
             ),
           ),
-          ...state.albums.map((album) => AlbumCard(album: album)).toList(),
+          ...state.albums.map((album) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+              child: AlbumCard(album: album),
+            );
+          }).toList(),
         ],
       ],
     );

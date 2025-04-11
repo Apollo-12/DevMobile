@@ -185,7 +185,7 @@ class _AlbumDetailsScreenState extends State<AlbumDetailsScreen> {
                   final track = tracks[index];
                   return ListTile(
                     leading: Text(
-                      '${track.trackNumber ?? (index + 1).toString()}',
+                      track.trackNumber ?? (index + 1).toString(),
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     title: Text(track.name ?? 'Titre inconnu'),

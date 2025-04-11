@@ -32,15 +32,22 @@ class _ChartsTabState extends State<ChartsTab> with SingleTickerProviderStateMix
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TabBar(
-          controller: _tabController,
-          labelColor: Colors.black,
-          unselectedLabelColor: Colors.grey,
-          indicatorColor: Colors.green,
-          tabs: const [
-            Tab(text: 'Titres'),
-            Tab(text: 'Albums'),
-          ],
+        Container(
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(color: Colors.grey, width: 0.5),
+            ),
+          ),
+          child: TabBar(
+            controller: _tabController,
+            labelColor: Colors.black,
+            unselectedLabelColor: Colors.grey,
+            indicatorColor: Colors.green,
+            tabs: const [
+              Tab(text: 'Titres'),
+              Tab(text: 'Albums'),
+            ],
+          ),
         ),
         Expanded(
           child: TabBarView(
@@ -66,8 +73,9 @@ class _ChartsTabState extends State<ChartsTab> with SingleTickerProviderStateMix
               child: Text('Aucun titre trouvé dans le classement'),
             );
           }
-          return ListView.builder(
+          return ListView.separated(
             itemCount: state.tracks.length,
+            separatorBuilder: (context, index) => const Divider(height: 1),
             itemBuilder: (context, index) {
               final track = state.tracks[index];
               return TrackCard(

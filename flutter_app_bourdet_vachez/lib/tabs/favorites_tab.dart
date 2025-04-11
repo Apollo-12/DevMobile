@@ -64,7 +64,12 @@ class FavoritesTab extends StatelessWidget {
               ),
             ),
           ),
-          ...state.artists.map((artist) => ArtistCard(artist: artist)).toList(),
+          ...state.artists.map((artist) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+              child: ArtistCard(artist: artist),
+            );
+          }).toList(),
         ],
         if (state.albums.isNotEmpty) ...[
           const Padding(
@@ -77,7 +82,12 @@ class FavoritesTab extends StatelessWidget {
               ),
             ),
           ),
-          ...state.albums.map((album) => AlbumCard(album: album)).toList(),
+          ...state.albums.map((album) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+              child: AlbumCard(album: album),
+            );
+          }).toList(),
         ],
       ],
     );

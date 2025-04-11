@@ -183,15 +183,9 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<TrackResponse> getTrendingTracks(
-    String country,
-    String type,
-  ) async {
+  Future<TrackResponse> getMostLovedTracks(String format) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'country': country,
-      r'type': type,
-    };
+    final queryParameters = <String, dynamic>{r'format': format};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
@@ -202,7 +196,7 @@ class _ApiClient implements ApiClient {
     )
             .compose(
               _dio.options,
-              '/trending.php',
+              '/mostloved.php',
               queryParameters: queryParameters,
               data: _data,
             )

@@ -36,7 +36,7 @@ abstract class ApiClient {
   @GET("/track.php")
   Future<TrackResponse> getTracksByAlbumId(@Query("m") String albumId);
 
-  // Obtenir le classement iTunes US
-  @GET("/trending.php")
-  Future<TrackResponse> getTrendingTracks(@Query("country") String country, @Query("type") String type);
+  // Obtenir le classement iTunes US - version corrigée
+  @GET("/mostloved.php")
+  Future<TrackResponse> getMostLovedTracks(@Query("format") String format);
 }
