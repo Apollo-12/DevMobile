@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import '../api/api_client.dart';
+import '../api/dio_interceptor.dart';
 import '../data/models/artist.dart';
 import '../data/models/album.dart';
 import '../data/models/track.dart';
@@ -8,7 +9,16 @@ class MusicRepository {
   final ApiClient _apiClient;
 
   MusicRepository({ApiClient? apiClient})
-      : _apiClient = apiClient ?? ApiClient(Dio());
+      : _apiClient = apiClient ?? _createApiClient();
+
+  static ApiClient _createApiClient() {
+    final dio = Dio();
+    dio.interceptors.add(LoggingInterceptor());
+    dio.options.connectTimeout = const Duration(seconds: 30); // Timeout augmenté
+    dio.options.receiveTimeout = const Duration(seconds: 30);
+    
+    return ApiClient(dio);
+  }
 
   // Recherche d'artistes
   Future<List<Artist>> searchArtists(String query) async {
@@ -16,6 +26,7 @@ class MusicRepository {
       final response = await _apiClient.searchArtist(query);
       return response.artists ?? [];
     } catch (e) {
+      print('Erreur lors de la recherche d\'artistes: $e');
       throw Exception('Erreur lors de la recherche d\'artistes: $e');
     }
   }
@@ -26,6 +37,7 @@ class MusicRepository {
       final response = await _apiClient.searchAlbum(query);
       return response.albums ?? [];
     } catch (e) {
+      print('Erreur lors de la recherche d\'albums: $e');
       throw Exception('Erreur lors de la recherche d\'albums: $e');
     }
   }
@@ -39,6 +51,7 @@ class MusicRepository {
       }
       return null;
     } catch (e) {
+      print('Erreur lors de la récupération des détails de l\'artiste: $e');
       throw Exception('Erreur lors de la récupération des détails de l\'artiste: $e');
     }
   }
@@ -49,6 +62,7 @@ class MusicRepository {
       final response = await _apiClient.getAlbumsByArtistId(artistId);
       return response.albums ?? [];
     } catch (e) {
+      print('Erreur lors de la récupération des albums de l\'artiste: $e');
       throw Exception('Erreur lors de la récupération des albums de l\'artiste: $e');
     }
   }
@@ -62,6 +76,7 @@ class MusicRepository {
       }
       return null;
     } catch (e) {
+      print('Erreur lors de la récupération des détails de l\'album: $e');
       throw Exception('Erreur lors de la récupération des détails de l\'album: $e');
     }
   }
@@ -72,6 +87,7 @@ class MusicRepository {
       final response = await _apiClient.getTracksByAlbumId(albumId);
       return response.tracks ?? [];
     } catch (e) {
+      print('Erreur lors de la récupération des titres de l\'album: $e');
       throw Exception('Erreur lors de la récupération des titres de l\'album: $e');
     }
   }
@@ -82,7 +98,9 @@ class MusicRepository {
       final response = await _apiClient.getTrendingTracks(country, type);
       return response.tracks ?? [];
     } catch (e) {
-      throw Exception('Erreur lors de la récupération du classement: $e');
+      print('Erreur lors de la récupération du classement: $e');
+      // Retourner une liste vide en cas d'erreur pour éviter un crash
+      return [];
     }
   }
 }

@@ -62,9 +62,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         title: 'Music App',
         theme: ThemeData(
-          primarySwatch: Colors.green,
-          fontFamily: 'SF Pro',
+          primaryColor: Colors.green,
           scaffoldBackgroundColor: Colors.white,
+          fontFamily: 'SF Pro',
           appBarTheme: const AppBarTheme(
             elevation: 0,
             backgroundColor: Colors.transparent,
@@ -76,8 +76,13 @@ class MyApp extends StatelessWidget {
               fontFamily: 'SF Pro',
             ),
           ),
+          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+            selectedItemColor: Colors.green,
+            unselectedItemColor: Colors.grey,
+          ),
         ),
         routerConfig: AppRouter.router,
+        debugShowCheckedModeBanner: false,  // Cette ligne supprime le bandeau debug
       ),
     );
   }
