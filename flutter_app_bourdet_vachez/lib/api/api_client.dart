@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 import '../data/models/artist.dart';
 import '../data/models/album.dart';
